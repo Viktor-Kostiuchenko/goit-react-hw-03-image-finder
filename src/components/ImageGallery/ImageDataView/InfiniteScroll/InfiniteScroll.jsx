@@ -1,3 +1,5 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 export default function InfiniteScrl({ imagesArray, loadMore }) {
@@ -9,3 +11,8 @@ export default function InfiniteScrl({ imagesArray, loadMore }) {
     />
   );
 }
+
+InfiniteScrl.propTypes = {
+  imagesArray: PropTypes.array.isRequired,
+  loadMore: PropTypes.func.isRequired,
+};

@@ -1,9 +1,3 @@
-.app {
-  display: grid;
-  grid-template-columns: 1fr;
-  padding-bottom: 24px;
-}
-
 .toTop {
   color: white;
   padding-top: 1.8em;

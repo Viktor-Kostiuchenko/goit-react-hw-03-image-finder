@@ -1,3 +1,5 @@
+import React from 'react';
+import PropTypes from 'prop-types';
 import SearchForm from './SearchForm';
 import s from './Searchbar.module.css';
 
@@ -8,3 +10,7 @@ export default function SearchBar({ onSubmit }) {
     </header>
   );
 }
+
+SearchBar.propTypes = {
+  onSubmit: PropTypes.func.isRequired,
+};

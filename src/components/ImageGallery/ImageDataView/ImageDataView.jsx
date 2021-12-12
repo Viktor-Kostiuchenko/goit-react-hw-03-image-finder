@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import ImageGalleryItem from './ImageGalleryItem';
 // import Button from './Button';
 import InfiniteScrl from './InfiniteScroll';
@@ -29,3 +30,9 @@ export default function ImageDataView({ imagesArray, openModal, loadMore }) {
     </>
   );
 }
+
+ImageDataView.propTypes = {
+  imagesArray: PropTypes.array.isRequired,
+  openModal: PropTypes.func.isRequired,
+  loadMore: PropTypes.func.isRequired,
+};

@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { ToastContainer } from 'react-toastify';
-import ScrollToTop from 'react-scroll-up';
 import ImageGallery from '../ImageGallery';
 import Modal from '../Modal';
+import ScrollUp from '../ScrollUp';
 import Searchbar from '../Searchbar';
-import 'react-toastify/dist/ReactToastify.css';
-import s from './App.module.css';
+import Section from '../Section';
 
 export default class App extends Component {
   state = {
@@ -34,19 +33,17 @@ export default class App extends Component {
   render() {
     const { imageName, showModal, modalImg } = this.state;
     return (
-      <div className={s.app}>
-        <Searchbar onSubmit={this.onFormSubmit} />
-        <ImageGallery imageName={imageName} openModal={this.toggleModal} />
+      <>
+        <Section>
+          <Searchbar onSubmit={this.onFormSubmit} />
+        </Section>
+        <Section>
+          <ImageGallery imageName={imageName} openModal={this.toggleModal} />
+          <ScrollUp></ScrollUp>
+        </Section>
         {showModal && <Modal onClose={this.toggleModal} modalImg={modalImg} />}
         <ToastContainer autoClose={3000} />
-        <ScrollToTop
-          showUnder={160}
-          duration={500}
-          style={{ right: 50, bottom: 42 }}
-        >
-          <div className={s.toTop}></div>
-        </ScrollToTop>
-      </div>
+      </>
     );
   }
 }

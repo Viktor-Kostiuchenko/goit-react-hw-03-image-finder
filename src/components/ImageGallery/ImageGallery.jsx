@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import ImageDataView from './ImageDataView';
 import ImagePending from './ImagePending';
@@ -103,3 +104,8 @@ export default class ImageGallery extends Component {
     }
   }
 }
+
+ImageGallery.propTypes = {
+  imageName: PropTypes.string.isRequired,
+  openModal: PropTypes.func.isRequired,
+};
