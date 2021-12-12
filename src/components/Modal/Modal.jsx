@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { createPortal } from 'react-dom';
+import PropTypes from 'prop-types';
+import { GrClose } from 'react-icons/gr';
 import s from './Modal.module.css';
 
 const modalRoot = document.querySelector('#modal-root');
@@ -29,6 +31,13 @@ export default class Modal extends Component {
     const { src, alt } = this.props.modalImg;
     return createPortal(
       <div className={s.overlay} onClick={this.onBackdropClick}>
+        <button
+          type="button"
+          className={s.buttonClose}
+          onClick={() => this.props.onClose()}
+        >
+          <GrClose style={{ color: 'white', width: 30, height: 30 }} />
+        </button>
         <div className={s.modal}>
           <img src={src} alt={alt}></img>
         </div>
@@ -37,3 +46,8 @@ export default class Modal extends Component {
     );
   }
 }
+
+Modal.propTypes = {
+  modalImg: PropTypes.object.isRequired,
+  onClose: PropTypes.func.isRequired,
+};
