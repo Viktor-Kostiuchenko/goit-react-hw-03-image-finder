@@ -1,0 +1,40 @@
+.app {
+  display: grid;
+  grid-template-columns: 1fr;
+  padding-bottom: 24px;
+}
+
+.toTop {
+  color: white;
+  padding-top: 1.8em;
+  display: inline-block; /* or block */
+  position: relative;
+  border-color: white;
+  text-decoration: none;
+  transition: all 0.3s ease-out;
+}
+.toTop:before {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  content: '▲';
+  font-size: 0.9em;
+  position: absolute;
+  top: 0;
+  left: 50%;
+  margin-left: -0.7em;
+  border: solid 0.13em white;
+  border-radius: 10em;
+  width: 3.4em;
+  height: 3.4em;
+  line-height: 1.3em;
+  border-color: inherit;
+  transition: transform 0.5s ease-in;
+}
+.toTop:hover {
+  color: #203a43;
+  border-color: #203a43;
+}
+.toTop:hover:before {
+  transform: rotate(360deg);
+}
