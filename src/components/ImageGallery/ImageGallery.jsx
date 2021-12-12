@@ -21,22 +21,29 @@ export default class ImageGallery extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     const prevName = prevProps.imageName;
-    const nextname = this.props.imageName;
+    const nextName = this.props.imageName;
     const page = this.state.page;
 
-    if (prevName !== nextname) {
+    if (prevName !== nextName) {
       this.setState({ status: Status.PENDING });
 
       setTimeout(() => {
         imagesAPI
-          .fetchImages(nextname, page)
+          .fetchImages(nextName, page)
           .then(images => {
-            if (images.hits.length === 0 && images.totalHits === 0) {
-              toast.error('nothing found');
+            const imagesArray = images.hits;
+            const totalImages = images.totalHits;
+
+            if (imagesArray.length === 0 && totalImages === 0) {
+              toast.error('Oops nothing found');
               return;
             }
+            if (page === 1) {
+              toast.success(`Found ${totalImages} images`);
+            }
+
             this.setState({
-              imagesArray: images.hits,
+              imagesArray: imagesArray,
               status: Status.RESOLVED,
             });
           })
@@ -51,12 +58,19 @@ export default class ImageGallery extends Component {
     const nextname = this.props.imageName;
     const page = this.state.page;
 
-    this.updatePage();
     imagesAPI.fetchImages(nextname, page).then(newImages => {
+      if (newImages.hits.length === 0 && newImages.totalHits !== 0) {
+        toast.warning('Nothing more found');
+        return;
+      }
+
       this.setState(({ imagesArray }) => ({
         imagesArray: [...imagesArray, ...newImages.hits],
+        status: Status.RESOLVED,
       }));
     });
+
+    this.updatePage();
   };
 
   updatePage = () => {

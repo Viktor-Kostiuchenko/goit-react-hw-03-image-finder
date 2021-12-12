@@ -1,6 +1,7 @@
 import React from 'react';
 import ImageGalleryItem from './ImageGalleryItem';
-import Button from './Button';
+// import Button from './Button';
+import InfiniteScrl from './InfiniteScroll';
 import s from './ImageDataView.module.css';
 
 export default function ImageDataView({ imagesArray, openModal, loadMore }) {
@@ -18,8 +19,13 @@ export default function ImageDataView({ imagesArray, openModal, loadMore }) {
           </li>
         ))}
       </ul>
+      <InfiniteScrl
+        imagesArray={imagesArray}
+        loadMore={loadMore}
+      ></InfiniteScrl>
 
-      {imagesArray.length > 1 && <Button onClick={loadMore}></Button>}
+      {/* if i wanna use a button instead of infinite scroll */}
+      {/* {imagesArray.length > 1 && <Button onClick={loadMore}></Button>} */}
     </>
   );
 }
