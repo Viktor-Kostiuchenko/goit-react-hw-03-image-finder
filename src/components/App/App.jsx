@@ -39,8 +39,9 @@ export default class App extends Component {
         </Section>
         <Section>
           <ImageGallery imageName={imageName} openModal={this.toggleModal} />
-          <ScrollUp></ScrollUp>
+          <ScrollUp />
         </Section>
+
         {showModal && <Modal onClose={this.toggleModal} modalImg={modalImg} />}
         <ToastContainer autoClose={3000} />
       </>

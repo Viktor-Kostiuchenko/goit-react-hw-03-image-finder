@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { toast } from 'react-toastify';
 import ImageDataView from './ImageDataView';
 import ImagePending from './ImagePending';
-import imagesAPI from '../../services/imagesApi';
+import { fetchImages } from '../../services/imagesApi';
 import s from './ImageGallery.module.css';
 
 const Status = {
@@ -23,56 +23,39 @@ export default class ImageGallery extends Component {
   componentDidUpdate(prevProps, prevState) {
     const prevName = prevProps.imageName;
     const nextName = this.props.imageName;
-    const page = this.state.page;
+    const prevPage = prevState.page;
+    const nextPage = this.state.page;
 
     if (prevName !== nextName) {
+      this.setState({ imagesArray: [] });
+    }
+
+    if (prevName !== nextName || prevPage !== nextPage) {
       this.setState({ status: Status.PENDING });
 
-      setTimeout(() => {
-        imagesAPI
-          .fetchImages(nextName, page)
-          .then(images => {
-            const imagesArray = images.hits;
-            const totalImages = images.totalHits;
+      fetchImages(nextName, nextPage).then(images => {
+        const newImagesArray = images.hits;
+        const totalImages = images.totalHits;
 
-            if (imagesArray.length === 0 && totalImages === 0) {
-              toast.error('Oops nothing found');
-              return;
-            }
-            if (page === 1) {
-              toast.success(`Found ${totalImages} images`);
-            }
+        if (newImagesArray.length === 0 && totalImages === 0) {
+          toast.error('Oops nothing found');
+          return;
+        }
+        if (newImagesArray.length === 0 && totalImages !== 0) {
+          toast.warning('Nothing more found');
+          return;
+        }
+        if (nextPage === 1) {
+          toast.success(`Found ${totalImages} images`);
+        }
 
-            this.setState({
-              imagesArray: imagesArray,
-              status: Status.RESOLVED,
-            });
-          })
-          .catch(error => this.setState({ error, status: Status.REJECTED }));
-
-        this.updatePage();
-      }, 2000);
+        this.setState(({ imagesArray }) => ({
+          imagesArray: [...imagesArray, ...newImagesArray],
+          status: Status.RESOLVED,
+        }));
+      });
     }
   }
-
-  loadMore = () => {
-    const nextname = this.props.imageName;
-    const page = this.state.page;
-
-    imagesAPI.fetchImages(nextname, page).then(newImages => {
-      if (newImages.hits.length === 0 && newImages.totalHits !== 0) {
-        toast.warning('Nothing more found');
-        return;
-      }
-
-      this.setState(({ imagesArray }) => ({
-        imagesArray: [...imagesArray, ...newImages.hits],
-        status: Status.RESOLVED,
-      }));
-    });
-
-    this.updatePage();
-  };
 
   updatePage = () => {
     this.setState(prevState => {
@@ -84,24 +67,34 @@ export default class ImageGallery extends Component {
     const { imagesArray, status } = this.state;
     const { openModal } = this.props;
 
-    switch (status) {
-      case 'pending':
-        return <ImagePending />;
-      case 'resolved':
-        return (
+    return (
+      <>
+        {status === 'pending' && (
+          <>
+            <ImageDataView
+              imagesArray={imagesArray}
+              openModal={openModal}
+              loadMore={this.updatePage}
+            />
+            <ImagePending />
+          </>
+        )}
+
+        {status === 'resolved' && (
           <ImageDataView
             imagesArray={imagesArray}
             openModal={openModal}
-            loadMore={this.loadMore}
+            loadMore={this.updatePage}
           />
-        );
-      case 'idle':
-        return <h2 className={s.enterData}>Enter data to search...</h2>;
-      case 'rejected':
-        return toast.error('Ooops');
-      default:
-        return <h2 className={s.enterData}>Enter data to search...</h2>;
-    }
+        )}
+
+        {status === 'idle' && (
+          <h2 className={s.enterData}>Enter data to search...</h2>
+        )}
+
+        {status === 'rejected' && toast.error('Ooops')}
+      </>
+    );
   }
 }
 

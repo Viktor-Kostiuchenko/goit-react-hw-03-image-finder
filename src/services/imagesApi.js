@@ -1,6 +1,9 @@
-async function fetchImages(name, page) {
-  const BASE_URL = 'https://pixabay.com/api/';
-  const KEY = '23833327-aee66bbf86a23c3fb1d188dcb';
+import axios from 'axios';
+
+const BASE_URL = 'https://pixabay.com/api/';
+const KEY = '23833327-aee66bbf86a23c3fb1d188dcb';
+
+export async function fetchImages(name, page) {
   const searchParams = new URLSearchParams({
     q: name,
     per_page: 12,
@@ -12,24 +15,10 @@ async function fetchImages(name, page) {
   let url = `${BASE_URL}?key=${KEY}&${searchParams}`;
 
   try {
-    const response = await fetch(url);
-    return await response.json();
+    const response = await axios.get(url);
+    console.log(response.data);
+    return response.data;
   } catch (error) {
-    alert(`Нет картинок по запросу ${name}`);
+    throw error;
   }
-
-  //? the way to fetch images just by fetch
-  // return fetch('url').then(response => {
-  //   if (response.ok) {
-  //     return response.json();
-  //   }
-  //   return Promise.reject(new Error(`Нет картинок по запросу ${name}`));
-  // });
-  // ?
 }
-
-const api = {
-  fetchImages,
-};
-
-export default api;

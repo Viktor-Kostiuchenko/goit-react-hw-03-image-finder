@@ -28,11 +28,11 @@ export default class SearchForm extends Component {
     const { imageName } = this.state;
 
     return (
-      <form onSubmit={this.onSubmit} className={s.searchForm}>
-        <button type="submit" className={s.button}>
-          <BiSearchAlt className={s.searchIcon} />
-        </button>
-
+      <form
+        onSubmit={this.onSubmit}
+        className={s.searchForm}
+        autoComplete="off"
+      >
         <input
           className={s.input}
           type="text"
@@ -42,6 +42,9 @@ export default class SearchForm extends Component {
           value={imageName}
           onChange={this.onNameChange}
         />
+        <button type="submit" className={s.button}>
+          <BiSearchAlt className={s.searchIcon} />
+        </button>
       </form>
     );
   }

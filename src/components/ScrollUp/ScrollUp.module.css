@@ -26,8 +26,8 @@
   transition: transform 0.5s ease-in;
 }
 .toTop:hover {
-  color: #203a43;
-  border-color: #203a43;
+  color: #00bfff;
+  border-color: #00bfff;
 }
 .toTop:hover:before {
   transform: rotate(360deg);
