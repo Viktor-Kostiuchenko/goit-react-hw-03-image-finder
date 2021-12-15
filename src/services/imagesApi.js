@@ -17,15 +17,8 @@ export async function fetchImages(name, page) {
   try {
     const response = await axios.get(url);
     const result = await response.data;
-    console.log(result);
     return result;
   } catch (error) {
     alert(`Нет картинок по запросу ${name}`);
   }
 }
-
-// const api = {
-//   fetchImages
-// }
-
-// export default api
