@@ -16,9 +16,16 @@ export async function fetchImages(name, page) {
 
   try {
     const response = await axios.get(url);
-    console.log(response.data);
-    return response.data;
+    const result = await response.data;
+    console.log(result);
+    return result;
   } catch (error) {
-    throw error;
+    alert(`Нет картинок по запросу ${name}`);
   }
 }
+
+// const api = {
+//   fetchImages
+// }
+
+// export default api

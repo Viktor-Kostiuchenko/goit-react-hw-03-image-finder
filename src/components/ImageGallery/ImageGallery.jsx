@@ -69,27 +69,18 @@ export default class ImageGallery extends Component {
 
     return (
       <>
-        {status === 'pending' && (
-          <>
-            <ImageDataView
-              imagesArray={imagesArray}
-              openModal={openModal}
-              loadMore={this.updatePage}
-            />
-            <ImagePending />
-          </>
+        {status === 'idle' && (
+          <h2 className={s.enterData}>Enter data to search...</h2>
         )}
 
-        {status === 'resolved' && (
+        {status === 'pending' && <ImagePending />}
+
+        {(status === 'resolved' || status === 'pending') && (
           <ImageDataView
             imagesArray={imagesArray}
             openModal={openModal}
             loadMore={this.updatePage}
           />
-        )}
-
-        {status === 'idle' && (
-          <h2 className={s.enterData}>Enter data to search...</h2>
         )}
 
         {status === 'rejected' && toast.error('Ooops')}
