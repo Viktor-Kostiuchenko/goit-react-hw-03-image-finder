@@ -10,7 +10,7 @@ export default function ScrollUp() {
       duration={500}
       style={{ right: 60, bottom: 42 }}
     >
-      <div className={s.toTop}></div>
+      <div className={s.toTop} />
     </ScrollToTop>
   );
 }

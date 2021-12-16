@@ -1,24 +1,23 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
-const BASE_URL = 'https://pixabay.com/api/';
-const KEY = '23833327-aee66bbf86a23c3fb1d188dcb';
+const getImages = axios.create({
+  baseURL: 'https://pixabay.com/api/',
+  timeout: 1000,
 
-export async function fetchImages(name, page) {
-  const searchParams = new URLSearchParams({
-    q: name,
+  params: {
+    key: '23833327-aee66bbf86a23c3fb1d188dcb',
     per_page: 12,
     image_type: 'photo',
     orientation: 'horizontal',
-    page: page,
-  });
+  },
+});
 
-  let url = `${BASE_URL}?key=${KEY}&${searchParams}`;
-
+export async function fetchImages(name, page) {
   try {
-    const response = await axios.get(url);
-    const result = await response.data;
-    return result;
+    const { data } = await getImages('', { params: { q: name, page } });
+    return data;
   } catch (error) {
-    alert(`Нет картинок по запросу ${name}`);
+    toast.error(`Нет картинок по запросу ${name}`);
   }
 }

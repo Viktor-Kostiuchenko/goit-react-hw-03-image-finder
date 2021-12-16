@@ -39,7 +39,7 @@ export default class Modal extends Component {
           <GrClose style={{ color: 'white', width: 30, height: 30 }} />
         </button>
         <div className={s.modal}>
-          <img src={src} alt={alt}></img>
+          <img src={src} alt={alt} />
         </div>
       </div>,
       modalRoot,
